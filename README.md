@@ -3,6 +3,8 @@
 
 ![noisferatu](https://robertheel.com/noisferatu/Noisferatu.webp) 
 
+You can check out a video here https://youtu.be/kAjsbi65Gq8
+
 # Sections
 - [Project Overview](#project-overview)
 - [Bank System](#bank-system)
