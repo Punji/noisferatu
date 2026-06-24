@@ -3,8 +3,10 @@
 
 ![noisferatu](https://robertheel.com/noisferatu/Noisferatu.webp) 
 
-You can check out a video here https://youtu.be/kAjsbi65Gq8<br>
-DIY kits are available at https://www.thonk.co.uk/shop/scaepe-noisferatu/ 
+You can check out a video here https://youtu.be/kAjsbi65Gq8 \
+DIY kits are available at https://www.thonk.co.uk/shop/scaepe-noisferatu/ \
+Project website https://scaepe.ing/noisferatu/noisferatu.html \
+My artist website https://www.robertheel.com/++/
 
 # Sections
 - [Project Overview](#project-overview)
@@ -568,6 +570,8 @@ Avoid complex math - embrace the limitations!
 ## Licenses
 Code → GPL v3\
 Hardware →  CC BY-SA 4.0\
-Name and logo → All rights reserved 
+Name and logo → All rights reserved
+
+Robert Heel 2026
 
 <sub>[Back to sections list](#sections)</sub>
