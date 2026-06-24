@@ -3,7 +3,8 @@
 
 ![noisferatu](https://robertheel.com/noisferatu/Noisferatu.webp) 
 
-You can check out a video here https://youtu.be/kAjsbi65Gq8
+You can check out a video here https://youtu.be/kAjsbi65Gq8<br>
+DIY kits are available at https://www.thonk.co.uk/shop/scaepe-noisferatu/ 
 
 # Sections
 - [Project Overview](#project-overview)
