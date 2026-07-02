@@ -30,6 +30,6 @@
 | 24 | 1 | 220Ω | R31 | 220Ω | 0603WAF2200T5E | UNI-ROYAL | C22962 |
 | 25 | 1 | 10Ω | R32 | 10Ω | 0603WAF100JT5E | UNI-ROYAL | C22859 |
 | 26 | 3 | Tactile switch  THT | SW4, SW5, SW6 | | LCK-TA002H75-2WS | LCKELEC | C52036980 |
-| 27 | 4 | 9mm pot  THT | U1, U2, U3, U4 | | Alpha 9mm | Bourns work well too | |
+| 27 | 4 | 9mm pot  THT | U1, U2, U3, U4 | | Alpha 9mm | Bourns work well too | 10 K lin |
 | 28 | 1 | MCP6002-I/SN | U6 | | MCP6002-I/SN | MICROCHIP | C116706 |
 | 29 | 1 | TYPE-C 6P | USB1 | | TYPE-C 6P | SHOU HAN | C456012 |
