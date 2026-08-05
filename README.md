@@ -4,7 +4,7 @@
 Demo video: https://youtube.com/shorts/sy0JyycAC2k?si=m8qY6WxEv8yCJvSo
 
 ## Project Overview
-Noisferatu is a compact handheld generative texture synthesizer by Phil Schatzmann.
+Noisferatu is a compact handheld generative texture synthesizer by Robert Heel.
 
 TalkiePCM is a speech synthesis library by Phil Schatzmann that emulates the Texas Instruments TMS5220,
 a variant of the chip used in the Speak&Spell toy from 1978.
@@ -31,12 +31,12 @@ This project was inspired by the Error Instruments Speak&Glitch box while still 
 | 9 | Noise burst | Frame energy randomization | silent frame probability | frame repeat probability |
 
 ## Build Instructions
-1. Open the firmware folder in Arduino IDE
+1. Open the **src/** folder in Arduino IDE
 1. Set the board type to Seeduino XIAO SAMD21
 1. Import the TM1637 by Avishay Orpaz and the TalkiePCM by Phil Schatzmann libraries
 1. Upload the firmware
 
-Alternatively, upload the **firmware/Noisferatu.ino.bin** file using the Sketch → Upload Using Programmer option.
+Alternatively, upload the **firmware/Noisferatu.ino.bin** file using the **Sketch → Upload Using Programmer** option.
 
 ## Credits
 
