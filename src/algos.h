@@ -4235,6 +4235,12 @@ inline int16_t talkie()
     if (nextIndex) {
       readIndex = (readIndex + 1) % AUDIO_BUFFER_SIZE;
       nextIndex = false;
+
+      // Look ahead and interpolate
+      if (readIndex != writeIndex) {
+        int16_t sNext = audioBuffer[readIndex];
+        s = (s + sNext) >> 1;
+      }
     } else
       nextIndex = true;
 
