@@ -2601,6 +2601,7 @@ typedef struct {
 } LPCFrame;
 
 const LPCFrame SILENT_FRAME = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+const LPCFrame STOP_FRAME = { 0xF, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 const LPCFrame NEUTRAL_FRAME = { 12, 0, 32, 23, 10, 8, 6, 7, 6, 7, 3, 3, 3 };
 
 const uint8_t K1_PROB[32] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 2, 4, 6, 8, 10, 20, 15, 10, 5, 4, 3, 2, 1, 0 };
@@ -2779,12 +2780,11 @@ uint16_t loadFrames(LPCFrame *f, const uint8_t *data) {
 
   LPCFrame *framePtr = f;
   while(decodeFrame(data, &bitCount, framePtr++)) {
-    if (frameCount == MAX_VOICE_FRAMES - 1) {
-      f[MAX_VOICE_FRAMES] = {0xF, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-      frameCount += 2;
-      break;
-    }
     frameCount++;
+    if (frameCount == MAX_VOICE_FRAMES - 1) {
+      *framePtr = STOP_FRAME; // truncate voice
+      return frameCount + 1;
+    }
   }
 
   return frameCount;
@@ -2798,6 +2798,7 @@ uint8_t getProbValue(const uint8_t *table, int size) {
     if (acc > r)
       return (uint8_t)i;
   }
+  return (uint8_t)(size - 1);
 }
 
 void mutateFrame(LPCFrame &f) {
@@ -2958,14 +2959,18 @@ LPCFrame generateTalkieFrame2() {
   indexAcc += voiceSpeed;
   int index = (int)(indexAcc);
   if (index < 0) {
-    if (--vocabularyIndex < 0)
-      vocabularyIndex = vocabularyCount;
+    if (vocabularyIndex == 0)
+      vocabularyIndex = vocabularyCount - 1;
+    else
+      vocabularyIndex--;
     voiceLength = loadFrames(voiceFrames, vocabulary[(int)vocabularyIndex]);
-    indexAcc = (float)(voiceLength - 1);
+    indexAcc = (voiceLength > 0) ? (float)(voiceLength - 1) : 0.0f;
   } else {
     if (index >= (int)voiceLength) {
-      if (++vocabularyIndex >= vocabularyCount)
+      if (vocabularyIndex >= vocabularyCount)
         vocabularyIndex = 0;
+      else
+        vocabularyIndex++;
       voiceLength = loadFrames(voiceFrames, vocabulary[(int)vocabularyIndex]);
       indexAcc = 0.0f;
     }
