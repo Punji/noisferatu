@@ -1097,9 +1097,6 @@ void updateAllParams()
   updateSquareNandSquareParams();
   updateNoiseNorNoiseParams();
   updateSquareOrSquareParams();
-  updateTalkie1Params();
-  updateTalkie2Params();
-  updateTalkie3Params();
   
   // Future: Add new algorithm param updates here
 }

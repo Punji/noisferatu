@@ -366,7 +366,7 @@ void updateParams()
         updateGenerativeWaveform13Params();
         break;
       case BB_TRIPLE:
-        updateGenerativeWaveform15Params();
+        updateGenerativeWaveform14Params();
         break;
       case BB_SWEEP:
         updateGenerativeWaveform15Params();
