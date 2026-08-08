@@ -2811,67 +2811,67 @@ void mutateFrame(LPCFrame &f, bool unvoiced) {
       pitch = 63;
   }
 
-  uint8_t energy = unvoiced ? 12 : 14;
+  uint8_t energy = unvoiced ? 1 + random(13) : 14;
 
   int8_t k1 = f.k1 + random(7) - 3;
-  if (k1 < 0)
-    k1 = 0;
+  if (k1 < 10)
+    k1 = 10;
   else if (k1 > 31)
     k1 = 31;
 
   int8_t k2 = f.k2 + random(7) - 3;
-  if (k2 < 0)
-    k2 = 0;
-  else if (k2 > 31)
-    k2 = 31;
+  if (k2 < 1)
+    k2 = 1;
+  else if (k2 > 18)
+    k2 = 18;
 
   int8_t k3 = f.k3 + random(5) - 2;
-  if (k3 < 0)
-    k3 = 0;
-  else if (k3 > 15)
-    k3 = 15;
+  if (k3 < 4)
+    k3 = 4;
+  else if (k3 > 12)
+    k3 = 12;
 
   int8_t k4 = f.k4 + random(5) - 2;
-  if (k4 < 0)
-    k4 = 0;
-  else if (k4 > 15)
-    k4 = 15;
+  if (k4 < 2)
+    k4 = 2;
+  else if (k4 > 10)
+    k4 = 10;
 
   int8_t k5 = f.k5 + random(5) - 2;
-  if (k5 < 0)
-    k5 = 0;
-  else if (k5 > 15)
-    k5 = 15;
+  if (k5 < 3)
+    k5 = 3;
+  else if (k5 > 11)
+    k5 = 11;
 
   int8_t k6 = f.k6 + random(5) - 2;
-  if (k6 < 0)
-    k6 = 0;
-  else if (k6 > 15)
-    k6 = 15;
+  if (k6 < 1)
+    k6 = 1;
+  else if (k6 > 10)
+    k6 = 10;
 
   int8_t k7 = f.k7 + random(5) - 2;
-  if (k7 < 0)
-    k7 = 0;
-  else if (k7 > 15)
-    k7 = 15;
+  if (k7 < 2)
+    k7 = 2;
+  else if (k7 > 11)
+    k7 = 11;
 
   int8_t k8 = f.k8 + random(3) - 1;
-  if (k8 < 0)
-    k8 = 0;
-  else if (k8 > 7)
-    k8 = 7;
+  if (k8 < 1)
+    k8 = 1;
+  else if (k8 > 5)
+    k8 = 5;
 
   int8_t k9 = f.k9 + random(3) - 1;
-  if (k9 < 0)
-    k9 = 0;
-  else if (k9 > 7)
-    k9 = 7;
+  if (k9 < 1)
+    k9 = 1;
+  else if (k9 > 5)
+    k9 = 5;
 
   int8_t k10 = f.k10 + random(3) - 1;
-  if (k10 < 0)
-    k10 = 0;
-  else if (k10 > 7)
-    k10 = 7;
+  if (k10 < 1)
+    k10 = 1;
+  else if (k10 > 5)
+    k10 = 5;
 
   f.energy = energy;
   f.pitch = (uint8_t)pitch;
@@ -3056,8 +3056,11 @@ LPCFrame generateTalkieFrame4() {
   if (isRepeat(repeatProb))
     return lastFrame;
 
-  f.energy = 14;
-  f.pitch = random(63) + 1;
+  f.pitch = random(64);
+  if (f.pitch == 0)
+    f.energy = 1 + random(14);
+  else  
+    f.energy = 14;
   f.k1 = getProbValue(K1_PROB, 32);
   f.k2 = getProbValue(K2_PROB, 32);
   f.k3 = getProbValue(K3_PROB, 16);
@@ -3104,22 +3107,24 @@ LPCFrame generateTalkieFrame7() {
   if (tapeLength != MAX_TAPE_FRAMES) {
     tapeLength = MAX_TAPE_FRAMES;
     for (int i = 0; i < MAX_TAPE_FRAMES; i++)
-      tapeFrames[i] = SILENT_FRAME;
+      tapeFrames[i] = NEUTRAL_FRAME;
   }
 
-  uint16_t prevIndex = tapeIndex;
   if (tapeIndex >= tapeLength)
     tapeIndex = 0;
 
-  if (isSilent(silentProb))
+  if (isSilent(silentProb)) {
     return SILENT_FRAME;
+  }
 
   if (isRepeat(repeatProb))
-    return tapeFrames[prevIndex];
+    return lastFrame;
 
   mutateFrame(tapeFrames[tapeIndex], random(16) == 0);
 
-  return tapeFrames[tapeIndex++];
+  lastFrame = tapeFrames[tapeIndex++];
+
+  return lastFrame;
 }
 
 LPCFrame generateTalkieFrame8() {
