@@ -2602,7 +2602,7 @@ typedef struct {
 
 const LPCFrame SILENT_FRAME = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 const LPCFrame STOP_FRAME = { 0xF, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-const LPCFrame NEUTRAL_FRAME = { 12, 0, 32, 23, 10, 8, 6, 7, 6, 7, 3, 3, 3 };
+const LPCFrame NEUTRAL_FRAME = { 14, 0, 32, 23, 10, 8, 6, 7, 6, 7, 3, 3, 3 };
 
 const uint8_t K1_PROB[32] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 2, 4, 6, 8, 10, 20, 15, 10, 5, 4, 3, 2, 1, 0 };
 const uint8_t K2_PROB[32] = { 0, 0, 0, 1, 2, 3, 4, 5, 15, 20, 20, 15, 5, 4, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -2801,12 +2801,17 @@ uint8_t getProbValue(const uint8_t *table, int size) {
   return (uint8_t)(size - 1);
 }
 
-void mutateFrame(LPCFrame &f) {
-  int8_t pitch = f.pitch + random(9) - 4;
-  if (pitch < 0)
-    pitch = 0;
-  else if (pitch > 63)
-    pitch = 63;
+void mutateFrame(LPCFrame &f, bool unvoiced) {
+  int8_t pitch = 0;
+  if (!unvoiced) {
+    pitch = f.pitch + random(9) - 4;
+    if (pitch < 1)
+      pitch = 1;
+    else if (pitch > 63)
+      pitch = 63;
+  }
+
+  uint8_t energy = unvoiced ? 12 : 14;
 
   int8_t k1 = f.k1 + random(7) - 3;
   if (k1 < 0)
@@ -2868,6 +2873,7 @@ void mutateFrame(LPCFrame &f) {
   else if (k10 > 7)
     k10 = 7;
 
+  f.energy = energy;
   f.pitch = (uint8_t)pitch;
   f.k1 = (uint8_t)k1;
   f.k2 = (uint8_t)k2;
@@ -3050,7 +3056,7 @@ LPCFrame generateTalkieFrame4() {
   if (isRepeat(repeatProb))
     return lastFrame;
 
-  f.energy = 12;
+  f.energy = 14;
   f.pitch = random(63) + 1;
   f.k1 = getProbValue(K1_PROB, 32);
   f.k2 = getProbValue(K2_PROB, 32);
@@ -3069,37 +3075,25 @@ LPCFrame generateTalkieFrame4() {
 }
 
 LPCFrame generateTalkieFrame5() {
-  LPCFrame f;
-
   if (isSilent(silentProb))
     return SILENT_FRAME;
 
   if (isRepeat(repeatProb))
     return lastFrame;
 
-  f.energy = 12;
-  f.pitch = 0;
-  f.k1 = getProbValue(K1_PROB, 32);
-  f.k2 = getProbValue(K2_PROB, 32);
-  f.k3 = getProbValue(K3_PROB, 16);
-  f.k4 = getProbValue(K4_PROB, 16);
+  mutateFrame(lastFrame, false);
 
-  lastFrame = f;
-
-  return f;
+  return lastFrame;
 }
 
 LPCFrame generateTalkieFrame6() {
-  LPCFrame f;
-
   if (isSilent(silentProb))
     return SILENT_FRAME;
 
   if (isRepeat(repeatProb))
     return lastFrame;
 
-  lastFrame.energy = 12;
-  mutateFrame(lastFrame);
+  mutateFrame(lastFrame, true);
 
   return lastFrame;
 }
@@ -3113,6 +3107,7 @@ LPCFrame generateTalkieFrame7() {
       tapeFrames[i] = SILENT_FRAME;
   }
 
+  uint16_t prevIndex = tapeIndex;
   if (tapeIndex >= tapeLength)
     tapeIndex = 0;
 
@@ -3120,10 +3115,9 @@ LPCFrame generateTalkieFrame7() {
     return SILENT_FRAME;
 
   if (isRepeat(repeatProb))
-    return tapeFrames[tapeIndex];
+    return tapeFrames[prevIndex];
 
-  tapeFrames[tapeIndex].energy = 12;
-  mutateFrame(tapeFrames[tapeIndex]);
+  mutateFrame(tapeFrames[tapeIndex], random(16) == 0);
 
   return tapeFrames[tapeIndex++];
 }
@@ -3154,7 +3148,7 @@ LPCFrame generateTalkieFrame9() {
     return lastFrame;
 
   f.pitch = 0;
-  f.energy = (uint8_t)(1 + random(14));
+  f.energy = (uint8_t)(1 + random(12));
 
   lastFrame = f;
 
