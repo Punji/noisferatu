@@ -24,11 +24,11 @@ This project was inspired by the Error Instruments Speak&Glitch box while still 
 | 2 | All words | Time-stretch playback | playback speed | pitch delta |
 | 3 | Garbled word | Word frames randomization | word selection | pitch randomization |
 | 4 | Voice glitch | Statistical frame generation | silent frame probability | frame repeat probability |
-| 5 | Evolving voice | Voiced frame mutation | silent frame probability | frame repeat probability |
-| 6 | Evolving noise | Unvoiced frame mutation | silent frame probability | frame repeat probability |
-| 7 | Evolving tape | Multiple frame mutation | silent frame probability | frame repeat probability |
-| 8 | Random pitch | Frame pitch randomization | silent frame probability | frame repeat probability |
-| 9 | Noise burst | Frame energy randomization | silent frame probability | frame repeat probability |
+| 5 | Evolving voice | Voiced last frame mutation | silent frame probability | frame repeat probability |
+| 6 | Evolving noise | Unvoiced last frame mutation | silent frame probability | frame repeat probability |
+| 7 | Evolving tape | Multiple last frame mutation | silent frame probability | frame repeat probability |
+| 8 | Random pitch | Last frame pitch randomization | silent frame probability | frame repeat probability |
+| 9 | Random noise | Last frame energy randomization | silent frame probability | frame repeat probability |
 
 ## Build Instructions
 1. Open the **src/** folder in Arduino IDE

@@ -2811,7 +2811,7 @@ void mutateFrame(LPCFrame &f, bool unvoiced) {
       pitch = 63;
   }
 
-  uint8_t energy = unvoiced ? 1 + random(13) : 14;
+  uint8_t energy = unvoiced ? 7 + random(8) : 14;
 
   int8_t k1 = f.k1 + random(7) - 3;
   if (k1 < 10)
@@ -3128,36 +3128,29 @@ LPCFrame generateTalkieFrame7() {
 }
 
 LPCFrame generateTalkieFrame8() {
-  LPCFrame f = NEUTRAL_FRAME;
-
   if (isSilent(silentProb))
     return SILENT_FRAME;
 
   if (isRepeat(repeatProb))
     return lastFrame;
 
-  f.pitch = (uint8_t)(1 + random(63));
+  lastFrame.pitch = (uint8_t)(1 + random(63));
+  lastFrame.energy = 14;
 
-  lastFrame = f;
-
-  return f;
+  return lastFrame;
 }
 
 LPCFrame generateTalkieFrame9() {
-  LPCFrame f = NEUTRAL_FRAME;
-
   if (isSilent(silentProb))
     return SILENT_FRAME;
 
   if (isRepeat(repeatProb))
     return lastFrame;
 
-  f.pitch = 0;
-  f.energy = (uint8_t)(1 + random(12));
+  lastFrame.pitch = 0;
+  lastFrame.energy = (uint8_t)(7 + random(8));
 
-  lastFrame = f;
-
-  return f;
+  return lastFrame;
 }
 
 // ==================================================
